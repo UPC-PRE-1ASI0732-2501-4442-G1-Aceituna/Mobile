@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'WelcomePage.dart';
+import 'WelcomePage.dart';  // Cambiado de LoginPage a WelcomePage
+import 'CategoriasPage.dart'; // Página de Categorías
+import 'PedidosPage.dart'; // Página de Pedidos
+import 'PerfilPage.dart'; // Página de Perfil
 import 'RegisterPage.dart';
-import 'RolPage.dart';
-import 'CategoriasPage.dart';
-import 'CategoriaScooterPage.dart';
-import 'CategoriaBikePage.dart'; // Asegúrate de crear esta página
-import 'CrearVehiculoPage.dart'; // Asegúrate de crear esta página
-import 'VehiculosModel.dart';
+import 'RolPage.dart';  // Página para seleccionar el Rol
+import 'CategoriaBikePage.dart';  // Página para la categoría Bike
+import 'CategoriaScooterPage.dart';  // Página para la categoría Scooter
+import 'VehiculosModel.dart'; // Para gestionar los vehículos
 
 void main() {
   runApp(
@@ -18,8 +19,29 @@ void main() {
   );
 }
 
-class EcoMovilApp extends StatelessWidget {
+class EcoMovilApp extends StatefulWidget {
   const EcoMovilApp({Key? key}) : super(key: key);
+
+  @override
+  _EcoMovilAppState createState() => _EcoMovilAppState();
+}
+
+class _EcoMovilAppState extends State<EcoMovilApp> {
+  int _selectedIndex = 0;  // Pestaña seleccionada
+
+  // Lista de las páginas de las pestañas
+  final List<Widget> _pages = [
+    const CategoriasPage(),  // Página Categorías
+    const PedidosPage(),     // Página Pedidos
+    const PerfilPage(),      // Página Perfil
+  ];
+
+  // Cambiar la pestaña seleccionada
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +51,17 @@ class EcoMovilApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      initialRoute: '/',
+      initialRoute: '/', // Ruta inicial, empieza desde WelcomePage
+
       routes: {
-        '/': (context) => const WelcomePage(),
+        '/': (context) => const WelcomePage(),  // Página de Bienvenida (antes LoginPage)
         '/register': (context) => const RegisterPage(),
-        '/rol': (context) => const RolPage(),
+        '/rol': (context) => const RolPage(), // Ruta para seleccionar el Rol
         '/categorias': (context) => const CategoriasPage(),
-        '/categoria_scooter': (context) => const CategoriaScooterPage(),
-        '/categoria_bike': (context) => const CategoriaBikePage(), // crea esta pantalla similar a scooter
-        '/crear_vehiculo': (context) => CrearVehiculoPage(categoria: 'Default'),
+        '/categoria_bike': (context) => const CategoriaBikePage(),  // Nueva ruta para Bike
+        '/categoria_scooter': (context) => const CategoriaScooterPage(),  // Nueva ruta para Scooter
+        '/pedidos': (context) => const PedidosPage(),  // Ruta de Pedidos
+        '/perfil': (context) => const PerfilPage(),  // Ruta de Perfil
       },
     );
   }

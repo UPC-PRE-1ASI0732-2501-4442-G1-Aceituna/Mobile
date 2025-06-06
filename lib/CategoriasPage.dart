@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CategoriasPage extends StatelessWidget {
+class CategoriasPage extends StatefulWidget {
   const CategoriasPage({Key? key}) : super(key: key);
+
+  @override
+  _CategoriasPageState createState() => _CategoriasPageState();
+}
+
+class _CategoriasPageState extends State<CategoriasPage> {
+  int _selectedIndex = 0;  // Pestaña seleccionada
+
+  // Lista de las páginas de las pestañas
+  final List<Widget> _pages = [
+    const Placeholder(), // Página de Categorías (por ahora)
+    const Placeholder(), // Página de Pedidos
+    const Placeholder(), // Página de Perfil
+  ];
+
+  // Cambiar la pestaña seleccionada
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +36,8 @@ class CategoriasPage extends StatelessWidget {
         child: Column(
           children: [
             const Text(
-              'Categorias',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.green,
-              ),
+              'Selecciona una Categoría',
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
             Expanded(
@@ -45,6 +62,24 @@ class CategoriasPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,  // Cambia de pestaña al hacer click
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Categorías',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Pedidos',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+        ],
+      ),
     );
   }
 
@@ -52,11 +87,9 @@ class CategoriasPage extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (title == 'Bike') {
-          // Navega a la pantalla de Bike (implementa esta ruta)
-          Navigator.pushNamed(context, '/categoria_bike');
+          Navigator.pushNamed(context, '/categoria_bike'); // Navega a Bike
         } else if (title == 'Scooter Electrónico') {
-          // Navega a la pantalla de Scooter
-          Navigator.pushNamed(context, '/categoria_scooter');
+          Navigator.pushNamed(context, '/categoria_scooter'); // Navega a Scooter
         }
       },
       child: Container(
