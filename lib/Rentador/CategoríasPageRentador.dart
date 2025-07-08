@@ -1,34 +1,16 @@
 import 'package:flutter/material.dart';
-import 'BottomNavBar.dart';  // Importa la función
+//import '../BottomNavBarRentador.dart';  // Importa la función
 
-class CategoriasPage extends StatefulWidget {
-  const CategoriasPage({Key? key}) : super(key: key);
-
-  @override
-  _CategoriasPageState createState() => _CategoriasPageState();
-}
-
-class _CategoriasPageState extends State<CategoriasPage> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 1) {
-        Navigator.pushNamed(context, '/pedidos');
-      } else if (index == 2) {
-        Navigator.pushNamed(context, '/perfil');
-      }
-    });
-  }
+class CategoriasPageRentador extends StatelessWidget {
+  const CategoriasPageRentador({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text('Categorias'),
         backgroundColor: Colors.green,
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         child: Column(
@@ -60,7 +42,8 @@ class _CategoriasPageState extends State<CategoriasPage> {
           ],
         ),
       ),
-      bottomNavigationBar: buildBottomNavigationBar(_selectedIndex, _onItemTapped), // Llama la función aquí
+      //bottomNavigationBar: buildBottomNavigationBarRentador(0, (index) {
+        // Lógica para cambiar entre las páginas de la barra de navegación }),    
     );
   }
 
@@ -68,9 +51,9 @@ class _CategoriasPageState extends State<CategoriasPage> {
     return GestureDetector(
       onTap: () {
         if (title == 'Bike') {
-          Navigator.pushNamed(context, '/categoria_bike'); // Navega a Bike
+          Navigator.pushNamed(context, '/categoria_bike_Rentador'); // Navega a Bike
         } else if (title == 'Scooter Electrónico') {
-          Navigator.pushNamed(context, '/categoria_scooter'); // Navega a Scooter
+          Navigator.pushNamed(context, '/categoria_scooter_Rentador'); // Navega a Scooter
         }
       },
       child: Container(

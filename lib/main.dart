@@ -1,14 +1,25 @@
+import 'package:ecomovil/Rentador/CategoriaScooterPageRentador.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'WelcomePage.dart';  // Cambiado de LoginPage a WelcomePage
-import 'CategoriasPage.dart'; // Página de Categorías
-import 'PedidosPage.dart'; // Página de Pedidos
+import 'Propietario/CategoriasPage.dart'; // Página de Categorías
+import 'Propietario/PedidosPage.dart'; // Página de Pedidos
 import 'PerfilPage.dart'; // Página de Perfil
 import 'RegisterPage.dart';
 import 'RolPage.dart';  // Página para seleccionar el Rol
-import 'CategoriaBikePage.dart';  // Página para la categoría Bike
-import 'CategoriaScooterPage.dart';  // Página para la categoría Scooter
-import 'VehiculosModel.dart'; // Para gestionar los vehículos
+import 'Propietario/CategoriaBikePage.dart';  // Página para la categoría Bike
+import 'Propietario/CategoriaScooterPage.dart';  // Página para la categoría Scooter
+import 'Propietario/VehiculosModel.dart'; // Para gestionar los vehículos
+import 'Rentador/CarritoPage.dart';
+import 'Rentador/CategoríasPageRentador.dart';
+import 'Rentador/CategoriaBikePageRentador.dart';
+import 'Rentador/ConfirmacionPagoPage.dart';
+import 'Rentador/CuotasPage.dart';
+import 'Rentador/DetalleVehiculoPage.dart';
+import 'Rentador/DireccionPage.dart';
+import 'Rentador/PagoPage.dart';
+import 'Rentador/RentadorMainPage.dart';
+import 'Propietario/PropietarioMainPage.dart';
 
 void main() {
   runApp(
@@ -58,10 +69,21 @@ class _EcoMovilAppState extends State<EcoMovilApp> {
         '/register': (context) => const RegisterPage(),
         '/rol': (context) => const RolPage(), // Ruta para seleccionar el Rol
         '/categorias': (context) => const CategoriasPage(),
+        '/categoriasRentador': (context) => const CategoriasPageRentador(),
         '/categoria_bike': (context) => const CategoriaBikePage(),  // Nueva ruta para Bike
         '/categoria_scooter': (context) => const CategoriaScooterPage(),  // Nueva ruta para Scooter
+        '/detalle_vehiculo': (context) => const DetalleVehiculoPage(),
+        '/carrito': (context) => const CarritoPage(),
+        '/direccion': (context) => const DireccionPage(),
+        '/pago': (context) => const PagoPage(),
+        '/cuotas': (context) => const CuotasPage(),
+        '/confirmacion': (context) => const ConfirmacionPagoPage(),
         '/pedidos': (context) => const PedidosPage(),  // Ruta de Pedidos
         '/perfil': (context) => const PerfilPage(),  // Ruta de Perfil
+        '/categoria_bike_Rentador': (context) => const CategoriaBikePageRentador(),  // Nueva ruta para Bike
+        '/categoria_scooter_Rentador': (context) => const CategoriaScooterPageRentador(),  // Nueva ruta para Scooter
+        '/rentador_Main_Page': (context) => const RentadorMainPage(),  // Nueva ruta para Scooter
+        '/propietario_Main_Page': (context) => const PropietarioMainPage(),  // Nueva ruta para Scooter
       },
     );
   }

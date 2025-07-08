@@ -46,7 +46,7 @@ class RolPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/categorias');
+                      Navigator.pushNamed(context, '/propietario_Main_Page');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
@@ -88,7 +88,7 @@ class RolPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {
-                      // Acción para rentador
+                      Navigator.pushNamed(context, '/rentador_Main_Page');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

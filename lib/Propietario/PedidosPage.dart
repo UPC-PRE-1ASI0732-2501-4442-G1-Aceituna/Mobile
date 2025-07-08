@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'BottomNavBar.dart';  // Importa la función
+//import '../BottomNavBar.dart';  // Importa la función
 
 class PedidosPage extends StatefulWidget {
   const PedidosPage({Key? key}) : super(key: key);
@@ -9,9 +9,9 @@ class PedidosPage extends StatefulWidget {
 }
 
 class _PedidosPageState extends State<PedidosPage> {
-  int _selectedIndex = 1;
+  //int _selectedIndex = 1;
 
-  void _onItemTapped(int index) {
+  /*void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       if (index == 0) {
@@ -20,15 +20,15 @@ class _PedidosPageState extends State<PedidosPage> {
         Navigator.pushNamed(context, '/perfil');
       }
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text('Pedidos'),
         backgroundColor: Colors.green,
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
@@ -61,7 +61,7 @@ class _PedidosPageState extends State<PedidosPage> {
           },
         ),
       ),
-      bottomNavigationBar: buildBottomNavigationBar(_selectedIndex, _onItemTapped), // Llama la función aquí
+      //bottomNavigationBar: buildBottomNavigationBar(_selectedIndex, _onItemTapped), // Llama la función aquí
     );
   }
 }

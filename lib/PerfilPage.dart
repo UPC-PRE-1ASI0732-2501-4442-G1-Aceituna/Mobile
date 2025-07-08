@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'BottomNavBar.dart';  // Importa la función
-import 'UserModel.dart';  // Asegúrate de importar el modelo
+//import 'BottomNavBar.dart';  // Importa la función
+//import 'UserModel.dart';  // Asegúrate de importar el modelo
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);
@@ -64,10 +64,10 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text('Perfil'),
         backgroundColor: Colors.green,
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -114,7 +114,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ],
         ),
       ),
-      bottomNavigationBar: buildBottomNavigationBar(2, (index) {  // Llama a la función correctamente
+      /*bottomNavigationBar: buildBottomNavigationBar(2, (index) {  // Llama a la función correctamente
         setState(() {
           if (index == 0) {
             Navigator.pushNamed(context, '/categorias');
@@ -122,7 +122,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Navigator.pushNamed(context, '/pedidos');
           }
         });
-      }),
+      }),*/
     );
   }
 }
