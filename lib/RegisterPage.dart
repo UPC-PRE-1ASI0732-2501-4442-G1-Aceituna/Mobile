@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -9,6 +10,34 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool acceptedTerms = false;
+  final _nombreController = TextEditingController();
+  final _apellidoController = TextEditingController();
+  final _correoController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  // Método para guardar los datos en SharedPreferences
+  Future<void> _registerUser() async {
+    // Verificar que las contraseñas coincidan
+    if (_passwordController.text == _confirmPasswordController.text) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Guardar los datos en SharedPreferences
+      await prefs.setString('nombre', _nombreController.text);
+      await prefs.setString('apellido', _apellidoController.text);
+      await prefs.setString('correo', _correoController.text);
+      await prefs.setString('password', _passwordController.text); // Contraseña en producción debe ser encriptada
+      await prefs.setString('tipoUsuario', 'rentador'); // Por ejemplo, el tipo de usuario
+
+      // Redirigir al usuario a la página de bienvenida
+      Navigator.pushReplacementNamed(context, '/'); // Aquí redirige a la página de bienvenida
+    } else {
+      // Mostrar un error si las contraseñas no coinciden
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Las contraseñas no coinciden')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +63,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 fit: BoxFit.cover,
               ),
             ),
-
             // Contenido blanco con bordes redondeados
             Align(
               alignment: Alignment.bottomCenter,
@@ -57,19 +85,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-
                       // Inputs con fondo color claro
-                      _buildTextField('Nombres'),
+                      _buildTextField('Nombres', controller: _nombreController),
                       const SizedBox(height: 10),
-                      _buildTextField('Apellidos'),
+                      _buildTextField('Apellidos', controller: _apellidoController),
                       const SizedBox(height: 10),
-                      _buildTextField('Correo electronico', keyboardType: TextInputType.emailAddress),
+                      _buildTextField('Correo electronico', controller: _correoController, keyboardType: TextInputType.emailAddress),
                       const SizedBox(height: 10),
-                      _buildTextField('Contraseña', obscureText: true),
+                      _buildTextField('Contraseña', controller: _passwordController, obscureText: true),
                       const SizedBox(height: 10),
-                      _buildTextField('Confirmar Contraseña', obscureText: true),
+                      _buildTextField('Confirmar Contraseña', controller: _confirmPasswordController, obscureText: true),
                       const SizedBox(height: 16),
-
                       // Checkbox con texto
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,19 +117,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 20),
-
                       // Botón confirmar
                       SizedBox(
                         width: double.infinity,
                         height: 48,
                         child: ElevatedButton(
-                          onPressed: acceptedTerms
-                                ? () {
-                                    Navigator.pop(context);
-                                  }
-                                : null,
+                          onPressed: acceptedTerms ? _registerUser : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
                             shape: RoundedRectangleBorder(
@@ -121,7 +141,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-
             // Icono usuario + texto arriba a la izquierda
             Positioned(
               top: 30,
@@ -148,10 +167,10 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _buildTextField(String hint,
-      {bool obscureText = false, TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildTextField(String hint, {bool obscureText = false, TextInputType keyboardType = TextInputType.text, required TextEditingController controller}) {
     return TextField(
       obscureText: obscureText,
+      controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         filled: true,

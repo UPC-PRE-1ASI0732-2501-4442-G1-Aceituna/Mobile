@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'BottomNavBar.dart';  // Importa la función
 
 class CategoriasPage extends StatefulWidget {
   const CategoriasPage({Key? key}) : super(key: key);
@@ -8,19 +9,16 @@ class CategoriasPage extends StatefulWidget {
 }
 
 class _CategoriasPageState extends State<CategoriasPage> {
-  int _selectedIndex = 0;  // Pestaña seleccionada
+  int _selectedIndex = 0;
 
-  // Lista de las páginas de las pestañas
-  final List<Widget> _pages = [
-    const Placeholder(), // Página de Categorías (por ahora)
-    const Placeholder(), // Página de Pedidos
-    const Placeholder(), // Página de Perfil
-  ];
-
-  // Cambiar la pestaña seleccionada
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 1) {
+        Navigator.pushNamed(context, '/pedidos');
+      } else if (index == 2) {
+        Navigator.pushNamed(context, '/perfil');
+      }
     });
   }
 
@@ -62,24 +60,7 @@ class _CategoriasPageState extends State<CategoriasPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,  // Cambia de pestaña al hacer click
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Categorías',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Pedidos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(_selectedIndex, _onItemTapped), // Llama la función aquí
     );
   }
 

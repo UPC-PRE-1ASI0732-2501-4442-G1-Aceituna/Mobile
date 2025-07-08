@@ -1,23 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  // Controladores para los campos de texto de login
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  
+  // Variables para el usuario almacenado
+  String _storedEmail = '';
+  String _storedPassword = '';
+  String _userName = '';
+  
+  // Método para obtener los datos almacenados en SharedPreferences
+  Future<void> _getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _storedEmail = prefs.getString('correo') ?? '';
+      _storedPassword = prefs.getString('password') ?? '';
+      _userName = prefs.getString('nombre') ?? '';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserData();  // Cargar los datos almacenados cuando la página se inicie
+  }
+
+  // Método para verificar el login del usuario
+  void _loginUser() {
+    if (_emailController.text == _storedEmail && _passwordController.text == _storedPassword) {
+      // Si el correo y la contraseña coinciden, redirige al usuario
+      Navigator.pushNamed(context, '/rol');  // Aquí puedes cambiar la ruta al destino adecuado
+    } else {
+      // Mostrar mensaje de error si las credenciales no coinciden
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Correo o contraseña incorrectos')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // color fondo oscuro para el notch iOS
+      backgroundColor: Colors.black, // Color fondo oscuro para el notch iOS
       body: SafeArea(
         child: Stack(
           children: [
-            // Imagen de fondo (cubre toda la pantalla)
+            // Imagen de fondo
             Positioned.fill(
               child: Image.asset(
-                'assets/images/background.jpg', // coloca tu imagen en assets/images
+                'assets/images/background.jpg', // Coloca tu imagen en assets/images
                 fit: BoxFit.cover,
               ),
             ),
-
+            
             // Fondo blanco con bordes redondeados y contenido formulario
             Align(
               alignment: Alignment.bottomCenter,
@@ -40,11 +84,12 @@ class WelcomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
 
-                    // Input correo
+                    // Campo de correo
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.mail_outline, color: Colors.green),
-                        hintText: 'Correo electronico',
+                        hintText: 'Correo electrónico',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -55,11 +100,12 @@ class WelcomePage extends StatelessWidget {
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
-
+                    
                     const SizedBox(height: 12),
-
-                    // Input contraseña
+                    
+                    // Campo de contraseña
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_outline, color: Colors.green),
@@ -76,12 +122,12 @@ class WelcomePage extends StatelessWidget {
 
                     const SizedBox(height: 8),
 
-                    // Olvidó contraseña
+                    // Olvidó contraseña (actualmente no tiene funcionalidad)
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-
+                          // Aquí puedes añadir funcionalidad para recuperar contraseña
                         },
                         child: const Text(
                           '¿Has olvidado tu contraseña?',
@@ -104,9 +150,7 @@ class WelcomePage extends StatelessWidget {
                       child: ElevatedButton.icon(
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text('Login', style: TextStyle(fontSize: 18)),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/rol'); // Aquí está la navegación a RolPage
-                        },
+                        onPressed: _loginUser, // Llamar al método de login
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -118,7 +162,7 @@ class WelcomePage extends StatelessWidget {
 
                     const SizedBox(height: 12),
 
-                    // Texto registro
+                    // Texto de registro
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -128,7 +172,7 @@ class WelcomePage extends StatelessWidget {
                             Navigator.pushNamed(context, '/register');
                           },
                           child: const Text(
-                            'Registrate',
+                            'Regístrate',
                             style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -139,14 +183,14 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
 
-            // Logo centrado en la parte superior (aprox 40% altura)
+            // Logo centrado en la parte superior (aproximadamente 40% altura)
             Positioned(
               top: 30,
               left: 0,
               right: 0,
               child: Center(
                 child: Image.asset(
-                  'assets/images/logo.png', // coloca aquí el logo EcoMovil
+                  'assets/images/logo.png', // Coloca tu logo aquí
                   height: 140,
                 ),
               ),
