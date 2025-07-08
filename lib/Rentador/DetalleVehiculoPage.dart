@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';  // Necesario para usar ChangeNotifier
+import '../CarritoModel.dart';  // Importa el modelo para el carrito
 
 class DetalleVehiculoPage extends StatelessWidget {
   const DetalleVehiculoPage({Key? key}) : super(key: key);
@@ -7,6 +9,9 @@ class DetalleVehiculoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Recuperamos los detalles del vehículo desde los argumentos
     final Map<String, String> vehicle = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
+    // Acceder al modelo de carrito
+    final carritoModel = Provider.of<CarritoModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,6 +35,14 @@ class DetalleVehiculoPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Agregar al carrito
+                carritoModel.agregarAlCarrito(vehicle);
+
+                // Notificar al usuario
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Vehículo agregado al carrito')),
+                );
+
+                // Volver a la página principal del Rentador (o a la página que prefieras)
                 Navigator.pushNamed(context, '/rentador_Main_Page');
               },
               child: const Text('Agregar al Carrito'),

@@ -1,47 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';  // Necesario para usar ChangeNotifier
+import '../CarritoModel.dart';  // Importa el modelo para el carrito
 
-class CarritoPage extends StatefulWidget {
+class CarritoPage extends StatelessWidget {
   const CarritoPage({Key? key}) : super(key: key);
 
   @override
-  _CarritoPageState createState() => _CarritoPageState();
-}
-
-class _CarritoPageState extends State<CarritoPage> {
-  // Simulando el carrito
-  List<String> carrito = ['Bicicleta 1', 'Scooter 1'];
-
-  // Método para eliminar un vehículo del carrito
-  void _eliminarDelCarrito(int index) {
-    setState(() {
-      carrito.removeAt(index); // Eliminar el vehículo de la lista
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Acceder al carrito usando el proveedor
+    final carrito = Provider.of<CarritoModel>(context).getCarrito();  // Obtener los vehículos en el carrito
+
     return Scaffold(
       /*appBar: AppBar(
         title: const Text('Carrito de Compras'),
         backgroundColor: Colors.green,
       ),*/
-      body: ListView.builder(
-        itemCount: carrito.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(carrito[index]),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                _eliminarDelCarrito(index); // Llamamos a la función de eliminación
+      body: carrito.isEmpty
+          ? const Center(child: Text('El carrito está vacío'))
+          : ListView.builder(
+              itemCount: carrito.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(carrito[index]['nombre'] ?? ''),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      // Eliminar del carrito
+                      Provider.of<CarritoModel>(context, listen: false).eliminarDelCarrito(index);
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/direccion');
+          Navigator.pushNamed(context, '/direccion');  // Navegar a la página de dirección
         },
         child: const Icon(Icons.check),
       ),

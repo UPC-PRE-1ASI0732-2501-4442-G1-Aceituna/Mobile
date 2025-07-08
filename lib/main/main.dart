@@ -1,30 +1,34 @@
 import 'package:ecomovil/Rentador/CategoriaScooterPageRentador.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'WelcomePage.dart';  // Cambiado de LoginPage a WelcomePage
-import 'Propietario/CategoriasPage.dart'; // Página de Categorías
-import 'Propietario/PedidosPage.dart'; // Página de Pedidos
-import 'PerfilPage.dart'; // Página de Perfil
-import 'RegisterPage.dart';
-import 'RolPage.dart';  // Página para seleccionar el Rol
-import 'Propietario/CategoriaBikePage.dart';  // Página para la categoría Bike
-import 'Propietario/CategoriaScooterPage.dart';  // Página para la categoría Scooter
-import 'Propietario/VehiculosModel.dart'; // Para gestionar los vehículos
-import 'Rentador/CarritoPage.dart';
-import 'Rentador/CategoríasPageRentador.dart';
-import 'Rentador/CategoriaBikePageRentador.dart';
-import 'Rentador/ConfirmacionPagoPage.dart';
-import 'Rentador/CuotasPage.dart';
-import 'Rentador/DetalleVehiculoPage.dart';
-import 'Rentador/DireccionPage.dart';
-import 'Rentador/PagoPage.dart';
-import 'Rentador/RentadorMainPage.dart';
-import 'Propietario/PropietarioMainPage.dart';
+import '../WelcomePage.dart';  // Cambiado de LoginPage a WelcomePage
+import '../Propietario/CategoriasPage.dart'; // Página de Categorías
+import '../Propietario/PedidosPage.dart'; // Página de Pedidos
+import '../PerfilPage.dart'; // Página de Perfil
+import '../RegisterPage.dart';
+import '../RolPage.dart';  // Página para seleccionar el Rol
+import '../Propietario/CategoriaBikePage.dart';  // Página para la categoría Bike
+import '../Propietario/CategoriaScooterPage.dart';  // Página para la categoría Scooter
+import '../Propietario/VehiculosModel.dart'; // Para gestionar los vehículos
+import '../Rentador/CarritoPage.dart';
+import '../Rentador/CategoríasPageRentador.dart';
+import '../Rentador/CategoriaBikePageRentador.dart';
+import '../Rentador/ConfirmacionPagoPage.dart';
+import '../Rentador/CuotasPage.dart';
+import '../Rentador/DetalleVehiculoPage.dart';
+import '../Rentador/DireccionPage.dart';
+import '../Rentador/PagoPage.dart';
+import '../Rentador/RentadorMainPage.dart';
+import '../Propietario/PropietarioMainPage.dart';
+import '../CarritoModel.dart'; // El modelo para el carrito
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => VehiculosModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => VehiculosModel()), // Proveer VehiculosModel
+        ChangeNotifierProvider(create: (_) => CarritoModel()),   // Proveer CarritoModel
+      ],
       child: const EcoMovilApp(),
     ),
   );

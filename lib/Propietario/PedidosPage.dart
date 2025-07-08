@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 //import '../BottomNavBar.dart';  // Importa la función
 
-class PedidosPage extends StatefulWidget {
+class PedidosPage extends StatelessWidget {
   const PedidosPage({Key? key}) : super(key: key);
 
   @override
-  _PedidosPageState createState() => _PedidosPageState();
-}
-
-class _PedidosPageState extends State<PedidosPage> {
-  //int _selectedIndex = 1;
-
-  /*void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 0) {
-        Navigator.pushNamed(context, '/categorias');
-      } else if (index == 2) {
-        Navigator.pushNamed(context, '/perfil');
-      }
-    });
-  }*/
-
-  @override
   Widget build(BuildContext context) {
+    // Simulando los pedidos
+    final List<Map<String, String>> pedidos = [
+      {
+        'fecha': '2024-08-06 12:50:00',
+        'cliente': 'David Esteban Martinez',
+        'direccion': 'Av. Siempre Viva 123',
+        'celular': '9876543210',
+        'total': '\$100',
+      },
+      {
+        'fecha': '2024-08-06 14:30:00',
+        'cliente': 'Ana Maria Torres',
+        'direccion': 'Calle Ficticia 456',
+        'celular': '9876543211',
+        'total': '\$150',
+      },
+    ];
+
     return Scaffold(
       /*appBar: AppBar(
         title: const Text('Pedidos'),
@@ -32,7 +32,7 @@ class _PedidosPageState extends State<PedidosPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
-          itemCount: 2, // Número de pedidos simulados
+          itemCount: pedidos.length, // Número de pedidos
           itemBuilder: (context, index) {
             return Card(
               margin: const EdgeInsets.symmetric(vertical: 8),
@@ -42,17 +42,21 @@ class _PedidosPageState extends State<PedidosPage> {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Pedido 2024-08-06 T2:50:00'),
-                    Text('Cliente: David Esteban Martinez'),
-                    Text('Estado: Pagado'),
+                    Text('Fecha: ${pedidos[index]['fecha']}'),
+                    Text('Cliente: ${pedidos[index]['cliente']}'),
+                    Text('Total: ${pedidos[index]['total']}'),
                   ],
                 ),
                 trailing: const Icon(Icons.arrow_forward),
                 onTap: () {
+                  // Navegar a la página de detalles del pedido y pasar los detalles
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => PedidoDetallePage(),
+                      settings: RouteSettings(
+                        arguments: pedidos[index], // Pasamos los datos del pedido
+                      ),
                     ),
                   );
                 },
@@ -61,21 +65,62 @@ class _PedidosPageState extends State<PedidosPage> {
           },
         ),
       ),
-      //bottomNavigationBar: buildBottomNavigationBar(_selectedIndex, _onItemTapped), // Llama la función aquí
     );
   }
 }
 
 // Página de detalles del pedido
 class PedidoDetallePage extends StatelessWidget {
+  const PedidoDetallePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    // Simulando los detalles del pedido
+    final Map<String, String> pedido = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle del Pedido'),
+        title: const Text('Detalle del Pedido'),
+        backgroundColor: Colors.green,
       ),
-      body: Center(
-        child: Text('Detalles del pedido simulado'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Información del pedido
+            Text(
+              'Fecha de Pedido: ${pedido['fecha']}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            Text('Cliente: ${pedido['cliente']}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Dirección de entrega: ${pedido['direccion']}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Número de celular: ${pedido['celular']}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Total: ${pedido['total']}', style: const TextStyle(fontSize: 16)),
+
+            const SizedBox(height: 20),
+
+            // Botón para confirmar entrega
+            ElevatedButton(
+              onPressed: () {
+                // Volver a la página de categorías
+                Navigator.pushNamed(context, '/propietario_Main_Page');
+              },
+              child: const Text('Entregar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,  // Color del botón
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
